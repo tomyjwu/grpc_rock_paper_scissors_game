@@ -3,6 +3,14 @@ import socket
 import threading
 from time import sleep
 
+from concurrent import futures
+
+import logging
+import asyncio
+import grpc
+
+import rock_paper_scissors_pb2
+import rock_paper_scissors_pb2_grpc
 
 window = tk.Tk()
 window.title("Sever")
@@ -37,39 +45,58 @@ clientFrame.pack(side=tk.BOTTOM, pady=(5, 10))
 
 
 server = None
-HOST_ADDR = "0.0.0.0"
-HOST_PORT = 9090
 client_name = " "
 clients = []
 clients_names = []
 player_data = []
 
+_HANDS = {
+    "rock": rock_paper_scissors_pb2.ROCK,
+    "paper": rock_paper_scissors_pb2.PAPER,
+    "scissors": rock_paper_scissors_pb2.SCISSORS
+}
+
+class RockGame(rock_paper_scissors_pb2_grpc.RockPaperScissors):
+
+    def JoinGame(self, request: rock_paper_scissors_pb2.Gamer, context) -> rock_paper_scissors_pb2.GameWelcome:
+        print("server received from : " + request.name)
+        clients_names.append(request.name)
+        update_client_names_display(clients_names)
+        gamer_list = rock_paper_scissors_pb2.GamerList(gamers=clients_names)
+        return rock_paper_scissors_pb2.GameWelcome(welcome='Welcome, %s!' % request.name, gamer_list=gamer_list)
+
+    def PlayHand(self, request: rock_paper_scissors_pb2.PlayerHand, context) -> rock_paper_scissors_pb2.GameResult:
+        print("server received from : " + request.name)
+        print("play hand : " + request.hand)
+        return rock_paper_scissors_pb2.GameResult(winner_name='winner', player_hands=[])
+
+
+
+def grpc_serve():
+    global server
+    server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+    rock_paper_scissors_pb2_grpc.add_RockPaperScissorsServicer_to_server(RockGame(), server)
+    listen_addr = '[::]:9090'
+    server.add_insecure_port(listen_addr)
+    logging.info("Starting server on %s", listen_addr)
+    server.start()
+    # await server.wait_for_termination()
 
 # Start server function
 def start_server():
-    global server, HOST_ADDR, HOST_PORT # code is fine without this
     btnStart.config(state=tk.DISABLED)
     btnStop.config(state=tk.NORMAL)
-
-    server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    print (socket.AF_INET)
-    print (socket.SOCK_STREAM)
-
-    server.bind((HOST_ADDR, HOST_PORT))
-    server.listen(5)  # server is listening for client connection
-
-    threading._start_new_thread(accept_clients, (server, " "))
-
-    lblHost["text"] = "Address: " + HOST_ADDR
-    lblPort["text"] = "Port: " + str(HOST_PORT)
+    grpc_serve()
 
 
 # Stop server function
 def stop_server():
-    global server
+    global server, clients_names
     btnStart.config(state=tk.NORMAL)
     btnStop.config(state=tk.DISABLED)
-    server.close()
+    server.stop(None)
+    clients_names = []
+    update_client_names_display(clients_names)
 
 
 def accept_clients(the_server, y):

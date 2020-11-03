@@ -15,10 +15,10 @@ message GamerList {
   repeated string gamers = 1;
 };
 
-message GameRound {
-  int32 round = 1;
+message GameWelcome {
+  string welcome = 1;
   GamerList gamer_list = 2;
-};
+}
 
 message PlayerHand {
   string name = 1;
@@ -31,7 +31,6 @@ message GameResult {
 }
 
 service RockPaperScissors {
-  rpc JoinGame (Gamer) returns (GamerList);
-  rpc StartRound(Gamer) returns (GameRound);
+  rpc JoinGame (Gamer) returns (GameWelcome);
   rpc PlayHand(PlayerHand) returns (GameResult);
 };

@@ -6,6 +6,13 @@ import socket
 from time import sleep
 import threading
 
+import logging
+import asyncio
+import grpc
+
+import rock_paper_scissors_pb2
+import rock_paper_scissors_pb2_grpc
+
 # MAIN GAME WINDOW
 window_main = tk.Tk()
 window_main.title("Game Client")
@@ -147,7 +154,8 @@ def connect():
     else:
         your_name = ent_name.get()
         lbl_your_name["text"] = "Your name: " + your_name
-        connect_to_server(your_name)
+        # connect_to_server(your_name)
+        join_game(your_name)
 
 
 def count_down(my_timer, nothing):
@@ -177,6 +185,12 @@ def choice(arg):
         str_data = "Game_Round"+str(game_round)+your_choice
         client.send(str_data.encode())
         enable_disable_buttons("disable")
+
+def join_game(name):
+    with grpc.insecure_channel('localhost:9090') as channel:
+        stub = rock_paper_scissors_pb2_grpc.RockPaperScissorsStub(channel)
+        response = stub.JoinGame(rock_paper_scissors_pb2.Gamer(name=name))
+    print("join received: " + response.welcome)
 
 
 def connect_to_server(name):

@@ -20,7 +20,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   syntax='proto3',
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_pb=b'\n\x19rock_paper_scissors.proto\"\x15\n\x05Gamer\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1b\n\tGamerList\x12\x0e\n\x06gamers\x18\x01 \x03(\t\":\n\tGameRound\x12\r\n\x05round\x18\x01 \x01(\x05\x12\x1e\n\ngamer_list\x18\x02 \x01(\x0b\x32\n.GamerList\"/\n\nPlayerHand\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x04hand\x18\x02 \x01(\x0e\x32\x05.Hand\"D\n\nGameResult\x12\x13\n\x0bwinner_name\x18\x01 \x01(\t\x12!\n\x0cplayer_hands\x18\x02 \x03(\x0b\x32\x0b.PlayerHand*3\n\x04Hand\x12\x08\n\x04WILD\x10\x00\x12\x08\n\x04ROCK\x10\x01\x12\t\n\x05PAPER\x10\x02\x12\x0c\n\x08SCISSORS\x10\x03\x32{\n\x11RockPaperScissors\x12\x1e\n\x08JoinGame\x12\x06.Gamer\x1a\n.GamerList\x12 \n\nStartRound\x12\x06.Gamer\x1a\n.GameRound\x12$\n\x08PlayHand\x12\x0b.PlayerHand\x1a\x0b.GameResultb\x06proto3'
+  serialized_pb=b'\n\x19rock_paper_scissors.proto\"\x15\n\x05Gamer\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1b\n\tGamerList\x12\x0e\n\x06gamers\x18\x01 \x03(\t\">\n\x0bGameWelcome\x12\x0f\n\x07welcome\x18\x01 \x01(\t\x12\x1e\n\ngamer_list\x18\x02 \x01(\x0b\x32\n.GamerList\"/\n\nPlayerHand\x12\x0c\n\x04name\x18\x01 \x01(\t\x12\x13\n\x04hand\x18\x02 \x01(\x0e\x32\x05.Hand\"D\n\nGameResult\x12\x13\n\x0bwinner_name\x18\x01 \x01(\t\x12!\n\x0cplayer_hands\x18\x02 \x03(\x0b\x32\x0b.PlayerHand*3\n\x04Hand\x12\x08\n\x04WILD\x10\x00\x12\x08\n\x04ROCK\x10\x01\x12\t\n\x05PAPER\x10\x02\x12\x0c\n\x08SCISSORS\x10\x03\x32[\n\x11RockPaperScissors\x12 \n\x08JoinGame\x12\x06.Gamer\x1a\x0c.GameWelcome\x12$\n\x08PlayHand\x12\x0b.PlayerHand\x1a\x0b.GameResultb\x06proto3'
 )
 
 _HAND = _descriptor.EnumDescriptor(
@@ -53,8 +53,8 @@ _HAND = _descriptor.EnumDescriptor(
   ],
   containing_type=None,
   serialized_options=None,
-  serialized_start=260,
-  serialized_end=311,
+  serialized_start=264,
+  serialized_end=315,
 )
 _sym_db.RegisterEnumDescriptor(_HAND)
 
@@ -130,23 +130,23 @@ _GAMERLIST = _descriptor.Descriptor(
 )
 
 
-_GAMEROUND = _descriptor.Descriptor(
-  name='GameRound',
-  full_name='GameRound',
+_GAMEWELCOME = _descriptor.Descriptor(
+  name='GameWelcome',
+  full_name='GameWelcome',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   create_key=_descriptor._internal_create_key,
   fields=[
     _descriptor.FieldDescriptor(
-      name='round', full_name='GameRound.round', index=0,
-      number=1, type=5, cpp_type=1, label=1,
-      has_default_value=False, default_value=0,
+      name='welcome', full_name='GameWelcome.welcome', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=b"".decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR,  create_key=_descriptor._internal_create_key),
     _descriptor.FieldDescriptor(
-      name='gamer_list', full_name='GameRound.gamer_list', index=1,
+      name='gamer_list', full_name='GameWelcome.gamer_list', index=1,
       number=2, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
@@ -165,7 +165,7 @@ _GAMEROUND = _descriptor.Descriptor(
   oneofs=[
   ],
   serialized_start=81,
-  serialized_end=139,
+  serialized_end=143,
 )
 
 
@@ -203,8 +203,8 @@ _PLAYERHAND = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=141,
-  serialized_end=188,
+  serialized_start=145,
+  serialized_end=192,
 )
 
 
@@ -242,16 +242,16 @@ _GAMERESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=190,
-  serialized_end=258,
+  serialized_start=194,
+  serialized_end=262,
 )
 
-_GAMEROUND.fields_by_name['gamer_list'].message_type = _GAMERLIST
+_GAMEWELCOME.fields_by_name['gamer_list'].message_type = _GAMERLIST
 _PLAYERHAND.fields_by_name['hand'].enum_type = _HAND
 _GAMERESULT.fields_by_name['player_hands'].message_type = _PLAYERHAND
 DESCRIPTOR.message_types_by_name['Gamer'] = _GAMER
 DESCRIPTOR.message_types_by_name['GamerList'] = _GAMERLIST
-DESCRIPTOR.message_types_by_name['GameRound'] = _GAMEROUND
+DESCRIPTOR.message_types_by_name['GameWelcome'] = _GAMEWELCOME
 DESCRIPTOR.message_types_by_name['PlayerHand'] = _PLAYERHAND
 DESCRIPTOR.message_types_by_name['GameResult'] = _GAMERESULT
 DESCRIPTOR.enum_types_by_name['Hand'] = _HAND
@@ -271,12 +271,12 @@ GamerList = _reflection.GeneratedProtocolMessageType('GamerList', (_message.Mess
   })
 _sym_db.RegisterMessage(GamerList)
 
-GameRound = _reflection.GeneratedProtocolMessageType('GameRound', (_message.Message,), {
-  'DESCRIPTOR' : _GAMEROUND,
+GameWelcome = _reflection.GeneratedProtocolMessageType('GameWelcome', (_message.Message,), {
+  'DESCRIPTOR' : _GAMEWELCOME,
   '__module__' : 'rock_paper_scissors_pb2'
-  # @@protoc_insertion_point(class_scope:GameRound)
+  # @@protoc_insertion_point(class_scope:GameWelcome)
   })
-_sym_db.RegisterMessage(GameRound)
+_sym_db.RegisterMessage(GameWelcome)
 
 PlayerHand = _reflection.GeneratedProtocolMessageType('PlayerHand', (_message.Message,), {
   'DESCRIPTOR' : _PLAYERHAND,
@@ -301,8 +301,8 @@ _ROCKPAPERSCISSORS = _descriptor.ServiceDescriptor(
   index=0,
   serialized_options=None,
   create_key=_descriptor._internal_create_key,
-  serialized_start=313,
-  serialized_end=436,
+  serialized_start=317,
+  serialized_end=408,
   methods=[
   _descriptor.MethodDescriptor(
     name='JoinGame',
@@ -310,24 +310,14 @@ _ROCKPAPERSCISSORS = _descriptor.ServiceDescriptor(
     index=0,
     containing_service=None,
     input_type=_GAMER,
-    output_type=_GAMERLIST,
-    serialized_options=None,
-    create_key=_descriptor._internal_create_key,
-  ),
-  _descriptor.MethodDescriptor(
-    name='StartRound',
-    full_name='RockPaperScissors.StartRound',
-    index=1,
-    containing_service=None,
-    input_type=_GAMER,
-    output_type=_GAMEROUND,
+    output_type=_GAMEWELCOME,
     serialized_options=None,
     create_key=_descriptor._internal_create_key,
   ),
   _descriptor.MethodDescriptor(
     name='PlayHand',
     full_name='RockPaperScissors.PlayHand',
-    index=2,
+    index=1,
     containing_service=None,
     input_type=_PLAYERHAND,
     output_type=_GAMERESULT,

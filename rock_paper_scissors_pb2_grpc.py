@@ -17,12 +17,7 @@ class RockPaperScissorsStub(object):
         self.JoinGame = channel.unary_unary(
                 '/RockPaperScissors/JoinGame',
                 request_serializer=rock__paper__scissors__pb2.Gamer.SerializeToString,
-                response_deserializer=rock__paper__scissors__pb2.GamerList.FromString,
-                )
-        self.StartRound = channel.unary_unary(
-                '/RockPaperScissors/StartRound',
-                request_serializer=rock__paper__scissors__pb2.Gamer.SerializeToString,
-                response_deserializer=rock__paper__scissors__pb2.GameRound.FromString,
+                response_deserializer=rock__paper__scissors__pb2.GameWelcome.FromString,
                 )
         self.PlayHand = channel.unary_unary(
                 '/RockPaperScissors/PlayHand',
@@ -40,12 +35,6 @@ class RockPaperScissorsServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def StartRound(self, request, context):
-        """Missing associated documentation comment in .proto file."""
-        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-        context.set_details('Method not implemented!')
-        raise NotImplementedError('Method not implemented!')
-
     def PlayHand(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -58,12 +47,7 @@ def add_RockPaperScissorsServicer_to_server(servicer, server):
             'JoinGame': grpc.unary_unary_rpc_method_handler(
                     servicer.JoinGame,
                     request_deserializer=rock__paper__scissors__pb2.Gamer.FromString,
-                    response_serializer=rock__paper__scissors__pb2.GamerList.SerializeToString,
-            ),
-            'StartRound': grpc.unary_unary_rpc_method_handler(
-                    servicer.StartRound,
-                    request_deserializer=rock__paper__scissors__pb2.Gamer.FromString,
-                    response_serializer=rock__paper__scissors__pb2.GameRound.SerializeToString,
+                    response_serializer=rock__paper__scissors__pb2.GameWelcome.SerializeToString,
             ),
             'PlayHand': grpc.unary_unary_rpc_method_handler(
                     servicer.PlayHand,
@@ -93,24 +77,7 @@ class RockPaperScissors(object):
             metadata=None):
         return grpc.experimental.unary_unary(request, target, '/RockPaperScissors/JoinGame',
             rock__paper__scissors__pb2.Gamer.SerializeToString,
-            rock__paper__scissors__pb2.GamerList.FromString,
-            options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
-
-    @staticmethod
-    def StartRound(request,
-            target,
-            options=(),
-            channel_credentials=None,
-            call_credentials=None,
-            insecure=False,
-            compression=None,
-            wait_for_ready=None,
-            timeout=None,
-            metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/RockPaperScissors/StartRound',
-            rock__paper__scissors__pb2.Gamer.SerializeToString,
-            rock__paper__scissors__pb2.GameRound.FromString,
+            rock__paper__scissors__pb2.GameWelcome.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
