@@ -1,20 +1,37 @@
 syntax = "proto3";
 
-enum Operation {
-  ADD = 0;
-  SUBTRACT = 1;
+enum Hand {
+  WILD = 0;
+  ROCK = 1;
+  PAPER = 2;
+  SCISSORS = 3;
 }
 
-message BinaryOperation {
-  float first_operand = 1;
-  float second_operand = 2;
-  Operation operation = 3;
+message Gamer {
+  string name = 1;
 };
 
-message CalculationResult {
-  float result = 1;
+message GamerList {
+  repeated string gamers = 1;
 };
 
-service Calculator {
-  rpc Calculate (BinaryOperation) returns (CalculationResult);
+message GameRound {
+  int32 round = 1;
+  GamerList gamer_list = 2;
+};
+
+message PlayerHand {
+  string name = 1;
+  Hand hand = 2;
+}
+
+message GameResult {
+  string winner_name = 1;
+  repeated PlayerHand player_hands = 2;
+}
+
+service RockPaperScissors {
+  rpc JoinGame (Gamer) returns (GamerList);
+  rpc StartRound(Gamer) returns (GameRound);
+  rpc PlayHand(PlayerHand) returns (GameResult);
 };
