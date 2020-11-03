@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+enum Hand {
+  WILD = 0;
+  ROCK = 1;
+  PAPER = 2;
+  SCISSORS = 3;
+}
+
+message Gamer {
+  string name = 1;
+};
+
+message GamerList {
+  repeated string gamers = 1;
+};
+
+message GameWelcome {
+  string welcome = 1;
+  GamerList gamer_list = 2;
+}
+
+message PlayerHand {
+  string name = 1;
+  Hand hand = 2;
+}
+
+message GameResult {
+  string winner_name = 1;
+  repeated PlayerHand player_hands = 2;
+}
+
+service RockPaperScissors {
+  rpc JoinGame (Gamer) returns (GameWelcome);
+  rpc PlayHand(PlayerHand) returns (GameResult);
+};
